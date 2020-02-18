@@ -23,10 +23,10 @@ public abstract class Enemy : MonoBehaviour
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
-    private void Start()
+   /* private void Start()
     {
         Initialize();
-    }
+    }*/
 
     public virtual void Update()
     {
