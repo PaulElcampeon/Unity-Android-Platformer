@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     private Rigidbody2D rgb;
     [SerializeField]
@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private SpriteRenderer swordArcSpriteRenderer;
     private bool grounded = false;
+    public int Health { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +24,7 @@ public class Player : MonoBehaviour
         playerAnimation = GetComponent<PlayerAnimation>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         swordArcSpriteRenderer = transform.GetChild(1).GetComponent<SpriteRenderer>();
+        Health = 3;
     }
 
     // Update is called once per frame
@@ -102,6 +105,17 @@ public class Player : MonoBehaviour
         if(Input.GetMouseButtonDown(0) && IsGrounded())
         {
             playerAnimation.Attack();
+        }
+    }
+
+    public void Damage()
+    {
+        Health--;
+        Debug.Log("Ive been hit health remaining " + Health);
+
+        if (Health <= 0)
+        {
+            Destroy(this.gameObject);
         }
     }
 }

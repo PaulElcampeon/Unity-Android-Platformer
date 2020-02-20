@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class Hitbox : MonoBehaviour
 {
-    private bool canHit;
+    private bool canHit = true;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log(other.name);
-
         IDamageable hit = other.GetComponent<IDamageable>();
 
         if (hit != null)
@@ -25,7 +23,7 @@ public class Hitbox : MonoBehaviour
 
     public IEnumerator ResetCanHitCo()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         canHit = true;
     }
 }

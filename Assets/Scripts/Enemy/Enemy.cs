@@ -19,25 +19,41 @@ public abstract class Enemy : MonoBehaviour
 
     protected bool isHit;
 
+    protected Player player;
+
     public virtual void Initialize()
     {
         animator = GetComponentInChildren<Animator>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
-   /* private void Start()
+    private void Start()
     {
         Initialize();
-    }*/
+    }
 
     public virtual void Update()
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle") && animator.GetBool("InCombat") == false)
         {
             return;
         }
 
         Movement();
+
+        float distance = Vector3.Distance(player.transform.localPosition, transform.localPosition);
+        Vector3 direction = player.transform.localPosition - transform.localPosition;
+
+        if (direction.x > 0 && animator.GetBool("InCombat"))
+        {
+            spriteRenderer.flipX = false;
+
+        } else if (direction.x < 0 && animator.GetBool("InCombat"))
+        {
+            spriteRenderer.flipX = true;
+
+        }
     }
 
     public virtual void Movement()
@@ -64,6 +80,18 @@ public abstract class Enemy : MonoBehaviour
         if (isHit == false)
         {
             transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        }
+
+        CheckIfPlayerIsStillInCombatZone();
+    }
+
+    private void CheckIfPlayerIsStillInCombatZone()
+    {
+        float distance = Vector3.Distance(transform.localPosition, player.gameObject.transform.localPosition);
+        if (distance >= 2)
+        {
+            isHit = false;
+            animator.SetBool("InCombat", false);
         }
     }
 }

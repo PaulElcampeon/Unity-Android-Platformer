@@ -15,8 +15,10 @@ public class Spider : Enemy, IDamageable
     public void Damage()
     {
         health--;
-
-        if(health <= 0)
+        animator.SetTrigger("Hit");
+        isHit = true;
+        animator.SetBool("InCombat", true);
+        if (health <= 0)
         {
             Destroy(this.gameObject);
         }
