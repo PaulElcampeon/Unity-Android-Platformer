@@ -18,6 +18,7 @@ public abstract class Enemy : MonoBehaviour
     protected SpriteRenderer spriteRenderer;
 
     protected bool isHit;
+    protected bool isDead = false;
 
     protected Player player;
 
@@ -40,19 +41,9 @@ public abstract class Enemy : MonoBehaviour
             return;
         }
 
-        Movement();
-
-        float distance = Vector3.Distance(player.transform.localPosition, transform.localPosition);
-        Vector3 direction = player.transform.localPosition - transform.localPosition;
-
-        if (direction.x > 0 && animator.GetBool("InCombat"))
+        if (!isDead)
         {
-            spriteRenderer.flipX = false;
-
-        } else if (direction.x < 0 && animator.GetBool("InCombat"))
-        {
-            spriteRenderer.flipX = true;
-
+            Movement();
         }
     }
 
@@ -80,6 +71,19 @@ public abstract class Enemy : MonoBehaviour
         if (isHit == false)
         {
             transform.position = Vector3.MoveTowards(transform.position, currentTarget, speed * Time.deltaTime);
+        }
+
+        float distance = Vector3.Distance(player.transform.localPosition, transform.localPosition);
+        Vector3 direction = player.transform.localPosition - transform.localPosition;
+
+        if (direction.x > 0 && animator.GetBool("InCombat"))
+        {
+            spriteRenderer.flipX = false;
+
+        }
+        else if (direction.x < 0 && animator.GetBool("InCombat"))
+        {
+            spriteRenderer.flipX = true;
         }
 
         CheckIfPlayerIsStillInCombatZone();
