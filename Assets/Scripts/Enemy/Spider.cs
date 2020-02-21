@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Spider : Enemy, IDamageable
 {
+    public GameObject acideEffectPrefab;
+
     public int Health { get; set; }
 
     public override void Initialize()
@@ -22,5 +25,10 @@ public class Spider : Enemy, IDamageable
         {
             Destroy(this.gameObject);
         }
+    }
+
+    public void Attack()
+    {
+        Instantiate(acideEffectPrefab, transform.position, Quaternion.identity);
     }
 }
