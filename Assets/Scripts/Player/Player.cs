@@ -15,6 +15,8 @@ public class Player : MonoBehaviour, IDamageable
     private SpriteRenderer spriteRenderer;
     private SpriteRenderer swordArcSpriteRenderer;
     private bool grounded = false;
+    public bool isDead = false;
+    public int diamondCount;
     public int Health { get; set; }
 
     // Start is called before the first frame update
@@ -31,9 +33,11 @@ public class Player : MonoBehaviour, IDamageable
 
     void Update()
     {
-        Movement();
-
-        Attack();
+        if (!isDead)
+        {
+            Movement();
+            Attack();
+        }
     }
 
     public void Movement()
@@ -45,7 +49,6 @@ public class Player : MonoBehaviour, IDamageable
 
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
-            Debug.Log("Jump");
             rgb.velocity = new Vector2(rgb.velocity.x, jumpForce);
             playerAnimation.Jump(true);
             StartCoroutine(ResetJumpNeededCo());
@@ -111,12 +114,13 @@ public class Player : MonoBehaviour, IDamageable
     public void Damage()
     {
         Health--;
-        Debug.Log("Ive been hit health remaining " + Health);
-
         if (Health <= 0)
         {
             playerAnimation.Death();
-            //Destroy(this.gameObject);
+            isDead = true;
+        } else
+        {
+            playerAnimation.Hit();
         }
     }
 }

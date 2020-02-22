@@ -45,6 +45,8 @@ public abstract class Enemy : MonoBehaviour
         {
             Movement();
         }
+
+        ComeOutOfCombatIfPlayerIsDead();
     }
 
     public virtual void Movement()
@@ -93,6 +95,22 @@ public abstract class Enemy : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.localPosition, player.gameObject.transform.localPosition);
         if (distance >= 2)
+        {
+            ComeOutOfCombat();
+        }
+    }
+
+    private void ComeOutOfCombatIfPlayerIsDead()
+    {
+        if(player.isDead)
+        {
+            ComeOutOfCombat();
+        }
+    }
+
+    private void ComeOutOfCombat()
+    {
+        if (animator.GetBool("InCombat"))
         {
             isHit = false;
             animator.SetBool("InCombat", false);
