@@ -13,7 +13,7 @@ public class Diamond : MonoBehaviour
             Player player = other.gameObject.GetComponent<Player>();
 
             if (player != null) {
-                player.diamondCount += numberOfDiamonds;
+                player.AddGems(numberOfDiamonds);
                 Destroy(this.gameObject);
             }
         }

@@ -29,7 +29,7 @@ public class Player : MonoBehaviour, IDamageable
         playerAnimation = GetComponent<PlayerAnimation>();
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         swordArcSpriteRenderer = transform.GetChild(1).GetComponent<SpriteRenderer>();
-        Health = 3;
+        Health = 4;
     }
 
     // Update is called once per frame
@@ -118,6 +118,7 @@ public class Player : MonoBehaviour, IDamageable
     public void Damage()
     {
         Health--;
+        UIManager.Instance.UpdateLives(Health);
         if (Health <= 0)
         {
             playerAnimation.Death();
@@ -126,5 +127,11 @@ public class Player : MonoBehaviour, IDamageable
         {
             playerAnimation.Hit();
         }
+    }
+
+    public void AddGems(int amount)
+    {
+        diamondCount += amount;
+        UIManager.Instance.UpdateGemCount(diamondCount);
     }
 }
