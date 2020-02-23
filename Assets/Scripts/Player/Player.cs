@@ -17,7 +17,10 @@ public class Player : MonoBehaviour, IDamageable
     private bool grounded = false;
     public bool isDead = false;
     public int diamondCount;
+    [SerializeField]
     public int Health { get; set; }
+
+    public bool canAttack = true;
 
     // Start is called before the first frame update
     void Start()
@@ -105,7 +108,8 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Attack()
     {
-        if(Input.GetMouseButtonDown(0) && IsGrounded())
+
+        if(Input.GetMouseButtonDown(0) && IsGrounded() && canAttack)
         {
             playerAnimation.Attack();
         }

@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Diamond : MonoBehaviour
 {
-    [SerializeField]
     public int numberOfDiamonds;
 
     public void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<Player>().diamondCount += numberOfDiamonds;
-            Destroy(this.gameObject);
+            Player player = other.gameObject.GetComponent<Player>();
+
+            if (player != null) {
+                player.diamondCount += numberOfDiamonds;
+                Destroy(this.gameObject);
+            }
         }
     }
 }
